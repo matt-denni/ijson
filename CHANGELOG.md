@@ -1,5 +1,9 @@
 # Changelog
 
+## Development
+
+* Added support for Python 3.12.
+
 ## [3.2.0.post0]
 
 * Fixed minor README rendering issues

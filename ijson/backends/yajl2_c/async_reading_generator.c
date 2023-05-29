@@ -77,7 +77,7 @@ static PyObject *maybe_pop_event(async_reading_generator *self)
 static int is_gen_coroutine(PyObject *o)
 {
 	if (PyGen_CheckExact(o)) {
-		PyCodeObject *code = (PyCodeObject *)((PyGenObject*) o)->gi_code;
+		PyCodeObject *code = (PyCodeObject *)PyObject_GetAttrString(o, "gi_code");
 		return code->co_flags & CO_ITERABLE_COROUTINE;
 	}
 	return 0;

@@ -1,6 +1,6 @@
 # Changelog
 
-## Development
+## [3.2.1]
 
 * Added support for Python 3.12.
 * Fixed a memory leak in the ``yajl2_c`` backend
@@ -307,3 +307,4 @@
 [3.1.4]: https://github.com/ICRAR/ijson/releases/tag/v3.1.4
 [3.2.0]: https://github.com/ICRAR/ijson/releases/tag/v3.2.0
 [3.2.0.post0]: https://github.com/ICRAR/ijson/releases/tag/v3.2.0.post0
+[3.2.1]: https://github.com/ICRAR/ijson/releases/tag/v3.2.1

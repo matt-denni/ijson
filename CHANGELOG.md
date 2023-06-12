@@ -3,6 +3,9 @@
 ## Development
 
 * Added support for Python 3.12.
+* Fixed a memory leak in the ``yajl2_c`` backend
+  triggered only when the underlying ``yajl`` functions
+  reported a failure (#97).
 
 ## [3.2.0.post0]
 

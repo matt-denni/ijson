@@ -74,6 +74,7 @@ PyObject *reading_generator_next(reading_generator_t *self)
 			length = view.len;
 			PyObject *send_res = ijson_yajl_parse(basic_parse_basecoro->h, view.buf, view.len);
 			Py_DECREF(pbuffer);
+			PyBuffer_Release(&view);
 			N_N(send_res);
 		}
 		else {
@@ -84,9 +85,10 @@ PyObject *reading_generator_next(reading_generator_t *self)
 			N_M1(length);
 			Py_DECREF(plength);
 			N_M1(PyObject_GetBuffer(self->buffer, &view, PyBUF_SIMPLE));
-			N_N(ijson_yajl_parse(basic_parse_basecoro->h, view.buf, length));
+			PyObject *send_res = ijson_yajl_parse(basic_parse_basecoro->h, view.buf, length);
+			PyBuffer_Release(&view);
+			N_N(send_res);
 		}
-		PyBuffer_Release(&view);
 		nevents = PyList_Size(events);
 
 		if (length == 0) {

@@ -5,23 +5,25 @@
 # Copyright by UWA (in the framework of the ICRAR)
 # All rights reserved
 
+image: Visual Studio 2019
+
 environment:
 
   matrix:
 
     # For Python versions available on Appveyor, see
     # http://www.appveyor.com/docs/installed-software#python
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python37"
-    - PYTHON: "C:\\Python38"
     - PYTHON: "C:\\Python35-x64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     - PYTHON: "C:\\Python36-x64"
     - PYTHON: "C:\\Python37-x64"
     - PYTHON: "C:\\Python38-x64"
+    - PYTHON: "C:\\Python39-x64"
+    - PYTHON: "C:\\Python310-x64"
+    - PYTHON: "C:\\Python311-x64"
 
 install:
-  - "%PYTHON%\\python.exe -m pip install wheel pytest"
+  - "%PYTHON%\\python.exe -m pip install pytest"
   - cmd: git submodule update --init --recursive
 
 build: off
@@ -31,9 +33,6 @@ test_script:
   - "set IJSON_EMBED_YAJL=1"
   - "%PYTHON%\\python.exe setup.py develop"
   - "%PYTHON%\\python.exe -mpytest -v"
-
-after_test:
-  - "%PYTHON%\\python.exe setup.py bdist_wheel"
 
 artifacts:
   - path: dist\*

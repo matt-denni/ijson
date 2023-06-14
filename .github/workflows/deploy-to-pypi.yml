@@ -1,7 +1,7 @@
 name: Build, test, and upload to PyPI
 
 # Build on every branch push, tag push, and pull request change:
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build_wheels:

@@ -83,6 +83,22 @@ static int is_gen_coroutine(PyObject *o)
 	return 0;
 }
 
+static PyObject* value_from_stopiteration()
+{
+	PyObject *ptype, *pvalue, *ptraceback, *return_value;
+	PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+	if (PyErr_GivenExceptionMatches(pvalue, PyExc_StopIteration)) {
+		return_value = PyObject_GetAttrString(pvalue, "value");
+		Py_XDECREF(pvalue);
+	}
+	else {
+		return_value = pvalue;
+	}
+	Py_XDECREF(ptype);
+	Py_XDECREF(ptraceback);
+	return return_value;
+}
+
 static PyObject *async_reading_generator_next(PyObject *self)
 {
 	async_reading_generator *gen = (async_reading_generator *)self;
@@ -140,19 +156,13 @@ static PyObject *async_reading_generator_next(PyObject *self)
 
 	// We await on two things: getting the correct read function (only once),
 	// and reading from it (many times, self->read_func is set)
-	PyObject *ptype, *ptraceback;
 	if (gen->read_func == NULL) {
-		PyErr_Fetch(&ptype, &gen->read_func, &ptraceback);
-		Py_XDECREF(ptype);
-		Py_XDECREF(ptraceback);
+		gen->read_func = value_from_stopiteration();
 		Py_RETURN_NONE;
 	}
 
 	// Finished awaiting on read() result, parse it
-	PyObject *buffer;
-	PyErr_Fetch(&ptype, &buffer, &ptraceback);
-	Py_XDECREF(ptype);
-	Py_XDECREF(ptraceback);
+	PyObject *buffer = value_from_stopiteration();
 
 	Py_buffer view;
 	N_M1(PyObject_GetBuffer(buffer, &view, PyBUF_SIMPLE));

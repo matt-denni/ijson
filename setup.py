@@ -1,5 +1,10 @@
-import distutils.ccompiler
-import distutils.sysconfig
+try:
+    from distutils import ccompiler
+    from distutils import sysconfig
+except ImportError:
+    from setuptools._distutils import ccompiler
+    from setuptools._distutils import sysconfig
+
 import glob
 import os
 import platform
@@ -52,8 +57,8 @@ setupArgs = dict(
 # without properly cleaning up
 def yajl_present():
 
-    compiler = distutils.ccompiler.new_compiler(verbose=1)
-    distutils.sysconfig.customize_compiler(compiler) # CC, CFLAGS, LDFLAGS, etc
+    compiler = ccompiler.new_compiler(verbose=1)
+    sysconfig.customize_compiler(compiler) # CC, CFLAGS, LDFLAGS, etc
 
     fname = tempfile.mktemp(".c", "yajl_version")
     try:

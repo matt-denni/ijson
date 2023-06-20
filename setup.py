@@ -117,7 +117,9 @@ else:
     extra_sources.remove(os.path.join(yajl_sources, 'src', 'yajl_version.c'))
     extra_include_dirs = [yajl_sources, os.path.join(yajl_sources, 'src')]
     libs = []
-if embed_yajl or have_yajl:
+build_yajl_default = '1' if embed_yajl or have_yajl else '0'
+build_yajl = os.environ.get('IJSON_BUILD_YAJL2C', build_yajl_default) == '1'
+if build_yajl:
     yajl_ext = Extension('ijson.backends._yajl2',
                          language='c',
                          sources=sorted(glob.glob('ijson/backends/yajl2_c/*.c')) + extra_sources,

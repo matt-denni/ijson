@@ -1,5 +1,10 @@
 # Changelog
 
+## Development
+
+* Fixed compilation and ``async`` support
+  of the ``yajl2_c`` backend in pyhthon 3.12 (#98).
+
 ## [3.2.1]
 
 * Added support for Python 3.12.

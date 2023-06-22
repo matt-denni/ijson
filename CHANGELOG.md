@@ -1,6 +1,6 @@
 # Changelog
 
-## Development
+## [3.2.2]
 
 * Fixed compilation and ``async`` support
   of the ``yajl2_c`` backend in pyhthon 3.12 (#98).
@@ -316,3 +316,4 @@
 [3.2.0]: https://github.com/ICRAR/ijson/releases/tag/v3.2.0
 [3.2.0.post0]: https://github.com/ICRAR/ijson/releases/tag/v3.2.0.post0
 [3.2.1]: https://github.com/ICRAR/ijson/releases/tag/v3.2.1
+[3.2.2]: https://github.com/ICRAR/ijson/releases/tag/v3.2.2

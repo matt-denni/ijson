@@ -4,6 +4,9 @@
 
 * Fixed compilation and ``async`` support
   of the ``yajl2_c`` backend in pyhthon 3.12 (#98).
+* Check ``IJSON_BUILD_YAJL2C`` environment variable
+  when building ijson
+  to force/skip building the ``yajl2_c`` backend (#102).
 
 ## [3.2.1]
 

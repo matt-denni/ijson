@@ -62,11 +62,11 @@ static PyObject *maybe_pop_event(async_reading_generator *self)
 		return NULL;
 	}
 	PyObject *event = PyList_GET_ITEM(events, self->index++);
-	PyObject *res = PyTuple_New(2);
+	PyObject *stop_iteration_args = PyTuple_New(1);
 	Py_INCREF(event);
-	PyTuple_SET_ITEM(res, 0, event);
-	PyErr_SetObject(PyExc_StopIteration, res);
-	Py_DECREF(res);
+	PyTuple_SET_ITEM(stop_iteration_args, 0, event);
+	PyErr_SetObject(PyExc_StopIteration, stop_iteration_args);
+	Py_DECREF(stop_iteration_args);
 	if (self->index == nevents) {
 		PySequence_DelSlice(events, 0, self->index);
 		self->index = 0;

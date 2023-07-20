@@ -54,6 +54,22 @@ static void async_reading_generator_dealloc(async_reading_generator *self)
 	Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
+static void raise_stopiteration(PyObject *value)
+{
+#if defined(PYPY_VERSION)
+	// PyPy doesn't seem to support normalised exceptions for coroutines,
+	// see https://foss.heptapod.net/pypy/pypy/-/issues/3965
+	PyObject *ex_value = PyObject_CallFunctionObjArgs(PyExc_StopIteration, value, NULL);
+	PyErr_SetObject(PyExc_StopIteration, ex_value);
+	Py_DECREF(ex_value);
+#else
+	PyObject *stop_iteration_args = PyTuple_New(1);
+	PyTuple_SET_ITEM(stop_iteration_args, 0, value);
+	PyErr_SetObject(PyExc_StopIteration, stop_iteration_args);
+	Py_DECREF(stop_iteration_args);
+#endif
+}
+
 static PyObject *maybe_pop_event(async_reading_generator *self)
 {
 	PyObject *events = self->events;
@@ -69,10 +85,7 @@ static PyObject *maybe_pop_event(async_reading_generator *self)
 		}
 		self->index = 0;
 	}
-	PyObject *stop_iteration_args = PyTuple_New(1);
-	PyTuple_SET_ITEM(stop_iteration_args, 0, event);
-	PyErr_SetObject(PyExc_StopIteration, stop_iteration_args);
-	Py_DECREF(stop_iteration_args);
+	raise_stopiteration(event);
 	return event;
 }
 

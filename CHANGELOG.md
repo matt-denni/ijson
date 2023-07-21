@@ -1,5 +1,22 @@
 # Changelog
 
+## Development
+
+* Fixed several issues in the ``yajl2_c`` backend
+  and its async generators
+  that were only made apparent
+  when running it with PyPy
+  and/or a CPython debug build (#101).
+  As part of that,
+  an issue was found and fixed in PyPy itself
+  affecting all versions up to 7.3.12,
+  so users will need to wait until the next version is released
+  to be able to use async generators
+  (https://foss.heptapod.net/pypy/pypy/-/issues/3956).
+* Adapted ``yajl2_c`` async generators
+  to work against PyPy shortcomings
+  (https://foss.heptapod.net/pypy/pypy/-/issues/3965).
+
 ## [3.2.2]
 
 * Fixed compilation and ``async`` support

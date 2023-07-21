@@ -14,6 +14,7 @@
 PyObject *chain(PyObject *sink, pipeline_node *coro_pipeline)
 {
 	PyObject *coro = sink;
+	Py_INCREF(coro);
 	int element = 0;
 	while (1) {
 		pipeline_node node = coro_pipeline[element++];
@@ -24,6 +25,7 @@ PyObject *chain(PyObject *sink, pipeline_node *coro_pipeline)
 		if (node.args) {
 			int nargs = PyTuple_Size(node.args);
 			N_N(coro_args = PyTuple_New(nargs + 1));
+			Py_INCREF(coro);
 			PyTuple_SET_ITEM(coro_args, 0, coro);
 			int i;
 			for (i = 0; i != nargs; i++) {
@@ -33,9 +35,7 @@ PyObject *chain(PyObject *sink, pipeline_node *coro_pipeline)
 		else {
 			N_N(coro_args = PyTuple_Pack(1, coro));
 		}
-		if (coro != sink) {
-			Py_DECREF(coro);
-		}
+		Py_DECREF(coro);
 		N_N(coro = PyObject_Call((PyObject *)node.type, coro_args, node.kwargs));
 		Py_DECREF(coro_args);
 	}

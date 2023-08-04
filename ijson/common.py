@@ -195,18 +195,20 @@ def integer_or_decimal(str_value):
     Converts string with a numeric value into an int or a Decimal.
     Used in different backends for consistent number representation.
     '''
-    if not ('.' in str_value or 'e' in str_value or 'E' in str_value):
-        return int(str_value)
-    return decimal.Decimal(str_value)
+    # if not ('.' in str_value or 'e' in str_value or 'E' in str_value):
+    #    return int(str_value)
+    # return decimal.Decimal(str_value)
+    return str_value
 
 def integer_or_float(str_value):
     '''
     Converts string with a numeric value into an int or a float.
     Used in different backends for consistent number representation.
     '''
-    if not ('.' in str_value or 'e' in str_value or 'E' in str_value):
-        return int(str_value)
-    return float(str_value)
+    # if not ('.' in str_value or 'e' in str_value or 'E' in str_value):
+    #     return int(str_value)
+    # return float(str_value)
+    return str_value
 
 def number(str_value):
     warnings.warn("number() function will be removed in a later release", DeprecationWarning)
